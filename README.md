@@ -11,30 +11,19 @@
 
 You should start your own templates by choosing one of the built-in CSSs, For example "Standard 2 per line format" showen below:
 
-.row {
-
-	display: grid;
-	grid-template-columns: 49% 49%;
-}
-
-.letter {
-	
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	padding: 5px;
-	word-break: break-word;
-	
-}
-
-@media print {
-
 	.row {
-		break-inside: avoid;
+		display: grid;
+		grid-template-columns: 49% 49%;
 	}
-}
-<p>Class "row" defines how many slips would be in each row by using grid.</p>
-<p>Class "letter" is styling the letter.</p>
-
-
-
- 
-.
+	.letter {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 5px;
+		word-break: break-word;
+	}
+	@media print {
+		.row {
+			break-inside: avoid;
+		}
+	}
+<p>Class "row" defines how many slips would be in each row by using grid, In this example 'grid-template-columns: 49% 49%' means there are 2 slips per row, Each takes 49% of the page.</p>
+<p>Class "letter" is in charge of the styling of the letters.</p>
