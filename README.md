@@ -11,13 +11,14 @@
 
 You should start your own templates by choosing one of the built-in CSSs, For example "Standard 2 per line format" showen below:
 
-<p>.row {
+
+.row {
 	
 	display: grid;
 	
 	grid-template-columns: 49% 49%;
 	
-}</p>
+}
 <p>.letter {
 	
 	border: 1px solid rgba(0, 0, 0, 0.1);
