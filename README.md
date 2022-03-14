@@ -15,11 +15,13 @@ You should start your own templates by choosing one of the built-in CSSs, For ex
 	display: grid;
 	grid-template-columns: 49% 49%;
 }
+
 .letter {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 5px;
 	word-break: break-word;
 }
+
 @media print {
 	.row {
 		break-inside: avoid;
