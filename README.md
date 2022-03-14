@@ -12,17 +12,23 @@
 You should start your own templates by choosing one of the built-in CSSs, For example "Standard 2 per line format" showen below:
 
 <p>.row {
+	<br>
 	display: grid;
 	grid-template-columns: 49% 49%;
+	<br>
 }</p>
 <p>.letter {
+	<br>
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 5px;
 	word-break: break-word;
+	<br>
 }</p>
 <p>@media print {
 	.row {
+	<br>
 		break-inside: avoid;
+	<br>
 	}
 }</p>
 <p>Class "row" defines how many slips would be in each row by using grid.</p>
