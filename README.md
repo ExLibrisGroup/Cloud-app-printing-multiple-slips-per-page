@@ -15,19 +15,16 @@ You should start your own templates by choosing one of the built-in CSSs, For ex
 	display: grid;
 	grid-template-columns: 49% 49%;
 }</p>
-
 <p>.letter {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 5px;
 	word-break: break-word;
 }</p>
-
 <p>@media print {
 	.row {
 		break-inside: avoid;
 	}
 }</p>
-
 <p>Class "row" defines how many slips would be in each row by using grid.</p>
 <p>Class "letter" is styling the letter.</p>
 
