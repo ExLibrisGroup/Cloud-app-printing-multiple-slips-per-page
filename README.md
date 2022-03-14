@@ -28,6 +28,7 @@ You should start your own templates by choosing one of the built-in CSSs, For ex
 	
 }</p>
 <p>@media print {
+	
 	.row {
 	
 		break-inside: avoid;
