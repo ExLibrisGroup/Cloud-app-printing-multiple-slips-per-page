@@ -2,5 +2,24 @@
    "id": "printing-multiple-slips-per-page",
    "title": "Printing Multiple Slips Per Page",
    "subtitle": "Printing multiple slips per page using using alma printing capabilities",
-   "author": "Ex Libris"
+   "author": "Ex Libris",
+   "fullscreen": {
+      "allow": true,
+      "open": false
+   },
+   "contentSecurity": {
+      "sandbox": {
+         "popups": true,
+         "modals": true
+      }
+   },
+   "pages": {
+      "help": "https://github.com/ExLibrisGroup/Cloud-app-printing-multiple-slips-per-page",
+      "settings": "/#/settings",
+      "config": "/#/config"
+   },
+   "icon": {
+      "type": "font",
+      "value": "fa fa-paste"
+   }
 }

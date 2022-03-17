@@ -9,11 +9,16 @@ import { MaterialModule, CloudAppTranslateModule, AlertModule } from '@exlibris/
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ConfigComponent } from './config/config.component';
+import { DialogModule } from 'eca-components';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    SettingsComponent,
+    ConfigComponent,
   ],
   imports: [
     MaterialModule,
@@ -23,7 +28,8 @@ import { MainComponent } from './main/main.component';
     HttpClientModule,
     AlertModule,
     FormsModule,
-    ReactiveFormsModule,     
+    ReactiveFormsModule,
+    DialogModule,     
     CloudAppTranslateModule.forRoot(),
   ],
   providers: [

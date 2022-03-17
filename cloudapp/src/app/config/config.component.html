@@ -1,0 +1,67 @@
+<style id="docStyle">h1{color: red;}</style>
+
+<div class="title">
+    <h1>Admin Configuration</h1>
+    <a [routerLink]="['']">
+      <button mat-raised-button><mat-icon>arrow_back</mat-icon>Back</button>
+    </a>
+  </div>
+
+
+  <div class="eca-actions">
+    <button 
+      mat-stroked-button (click)="onDeleteBtnClicked()" 
+      type="button" [disabled]="!editMode || saving">
+      <mat-icon [matTooltip]="constants.deleteTip">delete</mat-icon>
+    </button>
+      
+    <button mat-stroked-button (click)="onSaveBtnClicked()"
+      type="button" [disabled]="!html || saving || !htmlName">
+      <mat-icon [matTooltip]="constants.saveTip">save</mat-icon>
+    </button> 
+      
+    <button mat-stroked-button [matMenuTriggerFor]="editTemplate" [disabled]="saving || customHtmls.customHtmls.length == 0"
+      ><mat-icon [matTooltip]="constants.editTip">edit</mat-icon>
+    </button> 
+    <mat-menu #editTemplate="matMenu">
+      <button *ngFor="let custom of customHtmls.customHtmls; let i = index" mat-menu-item (click)="onCustomHtmlChange(custom)">{{ custom.name }}</button>
+    </mat-menu>
+
+    <button mat-stroked-button [matMenuTriggerFor]="newTemplate" [disabled]="saving">
+      <mat-icon [matTooltip]="constants.openTip">create_new_folder</mat-icon>
+    </button>
+    <mat-menu #newTemplate="matMenu">
+      <button *ngFor="let htmlFile of htmlFiles; let i = index" mat-menu-item (click)="loadStartingPoint(htmlFiles[i].id)">{{ htmlFiles[i].name }}</button>
+      <button *ngFor="let custom of customHtmls.customHtmls; let i = index" mat-menu-item (click)="loadStartingPoint(custom)">{{ custom.name }}</button>
+    </mat-menu>
+  </div>
+
+  <form>
+    <div class="form-container">
+      <mat-form-field>
+        <mat-label>Template name:</mat-label>
+        <input matInput [value]="htmlName" (input)="htmlName = $event.target.value"> 
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Template (enlarge the screen for easy editing)</mat-label>
+        <textarea matInput class="css-edit" placeholder="Your template here" [value]="html" (input)="onHtmlChanged($event)"></textarea>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Preview the generated HTML
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <h3>Result:</h3>
+        <div [innerHTML]="formattedRecord"></div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="commands-container">
+      <mat-spinner diameter="30" class="spinner" *ngIf="saving"></mat-spinner>
+    </div>
+
+  </form>
