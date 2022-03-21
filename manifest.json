@@ -14,12 +14,12 @@
       }
    },
    "pages": {
-      "help": "https://github.com/ExLibrisGroup/Cloud-app-printing-multiple-slips-per-page",
+      "help": "https://github.com/ExLibrisGroup/Cloud-app-printing-multiple-slips-per-page/blob/main/README.md",
       "settings": "/#/settings",
       "config": "/#/config"
    },
    "icon": {
-      "type": "font",
-      "value": "fa fa-paste"
+      "type": "url",
+      "value": "assets/logo_PrintMultiPerPage.png"
    }
 }

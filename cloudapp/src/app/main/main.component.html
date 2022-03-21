@@ -7,11 +7,17 @@
     [disabled]="clicked_records.length == 0">Print {{ clicked_records.length }} records
   </button>
 </div>
-
+<h5>This app is currently in preview mode</h5>
 <h1>Printing Queue</h1>
 <mat-form-field>
+  <mat-label style="font-weight: bold">Printout</mat-label>
+  <mat-select (selectionChange)="onStatusOrPrintoutChange(pageParams)"[(ngModel)]="selected_printout">
+    <mat-option *ngFor="let print of printout" [value]="print">{{ print }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
   <mat-label style="font-weight: bold">Status</mat-label>
-  <mat-select (selectionChange)="onStatusChange(pageParams)"[(ngModel)]="selected">
+  <mat-select (selectionChange)="onStatusOrPrintoutChange(pageParams)"[(ngModel)]="selected_status">
     <mat-option *ngFor="let stat of status" [value]="stat">{{ stat }}</mat-option>
   </mat-select>
 </mat-form-field>
@@ -27,8 +33,9 @@
 </ng-template>
 
 <ng-template #printouts>
+  <mat-checkbox #checkAll (change)="checkOrUncheckAll($event.checked)">Check/Uncheck All</mat-checkbox>
   <mat-checkbox #checkboxes *ngFor="let page of printing_queue" [value]="page" (change)="onRecordClick($event)" [ngModel]="isChecked(page)">
-    {{page.printout}} ({{ page.date | date: 'dd/MM/yyyy HH:mm:ss' }})
+    {{ page.printout }} ({{ page.date | date: 'dd/MM/yyyy HH:mm:ss' }}) - {{ page.status.desc }}
   </mat-checkbox>
 </ng-template>
 

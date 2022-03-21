@@ -19,9 +19,12 @@ export class MainComponent implements OnInit{
   total_records = 0;
   html: string;
   status = ['All', 'Canceled', 'Pending', 'Printed'];
-  selected = 'Pending';
+  printout = ['All', 'Request Report Letter', 'Resource Request Slip', 'Transit Letter'];
+  selected_status = 'Pending';
+  selected_printout = 'All';
 
   @ViewChildren("checkboxes") checkboxes: QueryList<MatCheckbox>;
+  @ViewChild('checkAll') checkAll : MatCheckbox;
   @ViewChild('pageParams') pageParams : PageEvent;
 
   constructor(
@@ -44,7 +47,7 @@ export class MainComponent implements OnInit{
     })
   }
   
-  onStatusChange(event: PageEvent){
+  onStatusOrPrintoutChange(event: PageEvent){
     this.getPrintouts({
       limit: event.pageSize,
       offset: 0
@@ -56,7 +59,8 @@ export class MainComponent implements OnInit{
     const queryParams = {
       limit: page.limit,
       offset: page.offset,
-      status: this.selected
+      status: this.selected_status,
+      letter: this.selected_printout
     }
     this.restService.call({url: '/almaws/v1/task-lists/printouts', queryParams}).pipe(finalize(() => this.loading = false)).subscribe(
       result => {
@@ -88,7 +92,7 @@ export class MainComponent implements OnInit{
     this.restService.call(request).pipe(finalize(() => this.loading = false)).subscribe(
       (result) => {
         this.alert.success(`${result.total_record_count} Records marked as printed`)
-        this.onStatusChange(this.pageParams);
+        this.onStatusOrPrintoutChange(this.pageParams);
     },
     error => {
       this.alert.error(error.message);
@@ -102,19 +106,49 @@ export class MainComponent implements OnInit{
     else{
       this.clicked_records = this.clicked_records.filter(record => record.id != event.source.value.id);
     }
+    //this.allChecked = this.checkboxes.filter(t => t.checked).length == this.checkboxes.length;
   }
 
   onClear(){
-    this.checkboxes.forEach((element) => { 
-      element.checked = false;
-    });
     this.clicked_records = [];
   }
 
   isChecked(record: any){
+    if (this.checkboxes != undefined && this.checkAll != undefined){
+      if (this.checkboxes.filter(checkbox => checkbox.checked).length == this.checkboxes.length){
+        this.checkAll.checked = true;
+        this.checkAll.indeterminate = false;
+      }
+      else if (this.checkboxes.filter(checkbox => checkbox.checked).length > 0){
+        this.checkAll.indeterminate = true;
+        this.checkAll.checked = false;
+      }
+      else {
+        this.checkAll.checked = false;
+        this.checkAll.indeterminate = false;
+      }
+    }
+
     if (this.clicked_records.map(res=> res.id).includes(record.id))
       return true;
     return false;  
+  }
+
+  checkOrUncheckAll(checked: boolean){
+    if (checked){
+      this.checkboxes.forEach((element: any) => {
+        element.checked = true;
+        if (!this.clicked_records.map(res=> res.id).includes(element.value.id)){
+          this.clicked_records.push(element.value);
+        }
+      });
+    }
+    else {
+      this.checkboxes.forEach((element: any) => {
+        element.checked = false;
+        this.clicked_records = this.clicked_records.filter(record => record.id != element.value.id);
+      });
+    }
   }
 
   onPrintPreviewNewTab(){
