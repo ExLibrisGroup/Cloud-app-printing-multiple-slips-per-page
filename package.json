@@ -25,6 +25,7 @@
     "eca-components": "^1.4.1",
     "lodash": "~4.17.21",
     "rxjs": "~6.5.5",
+    "url-parse": "~1.5.9",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
