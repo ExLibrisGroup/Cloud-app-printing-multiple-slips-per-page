@@ -106,7 +106,6 @@ export class MainComponent implements OnInit{
     else{
       this.clicked_records = this.clicked_records.filter(record => record.id != event.source.value.id);
     }
-    //this.allChecked = this.checkboxes.filter(t => t.checked).length == this.checkboxes.length;
   }
 
   onClear(){
@@ -182,7 +181,7 @@ export class MainComponent implements OnInit{
     })
     content += '</div></body></html>';
     
-    var win = window.open();
+    var win = window.open("", "");
     win.document.write(`<title>Print Preview</title>`);
     win.document.write(content);
     win.document.close();
@@ -211,9 +210,9 @@ export class MainComponent implements OnInit{
           console.log(response);
           this.html = response.customHtmls.filter((html: any) => html.name === htmlFilepath)[0].html;
         },
-        err => console.log(err.message));
+        err => this.alert.error(err.message));
       }
     },
-    err => console.log(err.message));
+    err => this.alert.error(err.message));
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CloudAppConfigService} from '@exlibris/exl-cloudapp-angular-lib';
+import { AlertService, CloudAppConfigService} from '@exlibris/exl-cloudapp-angular-lib';
 import { HttpClient } from '@angular/common/http'; 
 import { Constants } from '../constants';
 import { DialogService } from "eca-components";
 import { MatDialog } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-config',
@@ -28,6 +29,7 @@ export class ConfigComponent implements OnInit {
     private readonly http: HttpClient,
     private dialog: DialogService,
     public dialog2: MatDialog,
+    private alert: AlertService
   ) {}
   
   ngOnInit() { this.onLoad(); }
@@ -43,7 +45,7 @@ export class ConfigComponent implements OnInit {
         this.customHtmls = response;  
       }
     },
-    err => console.log(err.message));    
+    err => this.alert.error(err.message));    
   }  
 
   onHtmlChanged(event: Event) {
@@ -82,22 +84,20 @@ export class ConfigComponent implements OnInit {
           this.customHtmls.customHtmls = this.customHtmls.customHtmls.filter(html => html.name !== this.htmlName);
           this.customHtmls.customHtmls.push(toSave);    
           console.log(this.customHtmls);
-          this.configService.set(this.customHtmls).subscribe( response => {
+          this.configService.set(this.customHtmls).pipe(finalize(() => this.saving = false)).subscribe( response => {
           console.log("Saved");
-          this.saving=false;
       },
-      err => console.log(err.message));
+      err => this.alert.error(err.message));
         })
       }
       else {
         this.customHtmls.customHtmls = this.customHtmls.customHtmls.filter(html => html.name !== this.htmlName);
         this.customHtmls.customHtmls.push(toSave);    
         console.log(this.customHtmls);
-        this.configService.set(this.customHtmls).subscribe( response => {
+        this.configService.set(this.customHtmls).pipe(finalize(() => this.saving = false)).subscribe( response => {
         console.log("Saved");
-        this.saving=false;
       },
-      err => console.log(err.message));
+      err => this.alert.error(err.message));
       }
     })
 
@@ -126,11 +126,10 @@ export class ConfigComponent implements OnInit {
           this.customHtmls.customHtmls.push(toSave); 
           this.htmlEditName = this.htmlName;   
           console.log(this.customHtmls);
-          this.configService.set(this.customHtmls).subscribe( response => {
+          this.configService.set(this.customHtmls).pipe(finalize(() => this.saving = false)).subscribe( response => {
           console.log("Saved");
-          this.saving=false;
       },
-      err => console.log(err.message));
+      err =>  this.alert.error(err.message));
         })
       }
       else {
@@ -138,11 +137,10 @@ export class ConfigComponent implements OnInit {
         this.customHtmls.customHtmls.push(toSave);
         this.htmlEditName = this.htmlName;    
         console.log(this.customHtmls);
-        this.configService.set(this.customHtmls).subscribe( response => {
+        this.configService.set(this.customHtmls).pipe(finalize(() => this.saving = false)).subscribe( response => {
         console.log("Saved");
-        this.saving=false;
       },
-      err => console.log(err.message));
+      err =>  this.alert.error(err.message));
       }
     })
   }
@@ -154,16 +152,15 @@ export class ConfigComponent implements OnInit {
       if (!result) return;
       this.saving=true;
       this.customHtmls.customHtmls = this.customHtmls.customHtmls.filter(html => html.name !== this.htmlEditName);
-      this.configService.set(this.customHtmls).subscribe( response => {
+      this.configService.set(this.customHtmls).pipe(finalize(() => this.saving = false)).subscribe( response => {
       console.log("Saved");
       this.html = '';
       this.htmlName = '';
       this.htmlEditName = '';
       this.editMode = false;
       this.formattedRecord = '';
-      this.saving=false;
     },
-    err => console.log(err.message));
+    err => this.alert.error(err.message));
     })
     
   }
@@ -215,6 +212,4 @@ export class ConfigComponent implements OnInit {
     this.html = customHtml.html;
     this.runHtml();
   }
-   
-
 }

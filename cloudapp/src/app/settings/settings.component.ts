@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CloudAppSettingsService} from '@exlibris/exl-cloudapp-angular-lib';
+import { AlertService, CloudAppSettingsService} from '@exlibris/exl-cloudapp-angular-lib';
 import { CloudAppConfigService} from '@exlibris/exl-cloudapp-angular-lib';
 import { Constants } from '../constants';
 import { HttpClient } from '@angular/common/http'; 
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class SettingsComponent implements OnInit {
   constructor ( 
     private configService: CloudAppConfigService,
     private settingsService: CloudAppSettingsService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private alert: AlertService
   ) {}
   
   ngOnInit() {     this.load();   }
@@ -40,7 +42,7 @@ export class SettingsComponent implements OnInit {
         });
       }
     },
-    err => console.log(err.message));    
+    err => this.alert.error(err.message));    
 
 
     // change the dropdown to show the selection according to the saved settings
@@ -53,7 +55,7 @@ export class SettingsComponent implements OnInit {
         this.onSelectHtml(this.htmlFiles[0].id);
        }
      },
-     err => console.log(err.message));
+     err => this.alert.error(err.message));
   }
 
   onSelectHtml(htmlFileName: string) {
@@ -89,11 +91,10 @@ export class SettingsComponent implements OnInit {
     console.log("Saving settings: "+ newVal);
     this.saving=true;
     var toSave = { "htmlFile": newVal };
-    this.settingsService.set(toSave).subscribe( response => {
+    this.settingsService.set(toSave).pipe(finalize(() => this.saving = false)).subscribe( response => {
       console.log("Saved");
-      this.saving=false;
     },
-    err => console.log(err.message));
+    err => this.alert.error(err.message));
   }
   changeCss(){
     if (!document.body.getElementsByTagName('style')[0]) {
