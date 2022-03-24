@@ -20,6 +20,6 @@
    },
    "icon": {
       "type": "url",
-      "value": "assets/logo_PrintMultiPerPage.png"
+      "value": "/assets/logo_PrintMultiPerPage.png"
    }
 }

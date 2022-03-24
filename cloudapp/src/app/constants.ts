@@ -24,7 +24,7 @@ export class Constants {
 	<td colspan="2">
 	<div id="mailHeader">
 	<div id="logoContainer" class="alignLeft">
-	<img src="../assets/logo-main.png">
+	<img src="/../assets/logo-main.png">
 	
 	</div>
 	</div>
