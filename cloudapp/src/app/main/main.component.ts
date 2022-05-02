@@ -19,7 +19,7 @@ export class MainComponent implements OnInit{
   total_records = 0;
   html: string;
   status = ['All', 'Canceled', 'Pending', 'Printed'];
-  printout = ['All', 'Request Report Letter', 'Resource Request Slip', 'Transit Letter'];
+  printout = new Set(['All']);
   selected_status = 'Pending';
   selected_printout = 'All';
 
@@ -36,8 +36,16 @@ export class MainComponent implements OnInit{
   ) { }
 
   ngOnInit() {
-    this.getPrintouts();
-    this.loadHtml();
+    this.buildPrintoutsNames().subscribe(
+      result => {
+        result.printout.map(p => this.printout.add(p.printout));
+        this.getPrintouts();
+        this.loadHtml();
+    },
+    error => {
+      this.alert.error(error.message);
+    }
+    )
   }
 
   page(event: PageEvent){
@@ -76,6 +84,13 @@ export class MainComponent implements OnInit{
       this.alert.error(error.message);
     }
     )
+  }
+  buildPrintoutsNames(){
+    this.loading = true;
+    const queryParams = {
+      limit: 100,
+    }
+    return this.restService.call({url: '/almaws/v1/task-lists/printouts', queryParams}).pipe(finalize(() => this.loading = false));
   }
 
   onMarkAsPrinted(){
